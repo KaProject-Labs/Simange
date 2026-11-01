@@ -1,8 +1,9 @@
 [package]
 name = "simange"
 version = "0.1.0"
-description = "Simange (Simulation of Exchange) - Core Rust Market Engine"
-authors = ["Simange Contributors"]
+description = "Simange (Simulation of Exchange) - Core Rust Market Engine by KaProject Labs"
+authors = ["KaProject Labs <https://github.com/KaProject-Labs/Simange>"]
+repository = "https://github.com/KaProject-Labs/Simange"
 license = "GPL-3.0-or-later"
 edition = "2021"
 

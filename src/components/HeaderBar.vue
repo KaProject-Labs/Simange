@@ -17,6 +17,7 @@ import {
   IconMusic,
   IconWorld,
   IconBroadcast,
+  IconSettings,
 } from '@tabler/icons-vue';
 
 const store = useGameStore();
@@ -204,20 +205,28 @@ function formatCurrency(val: number): string {
 
       <!-- Utilities: Audio, CRT, Pause -->
       <div class="flex items-center space-x-1.5 text-terminal-muted">
-        <!-- Content Creator Mode Toggle -->
+        <!-- Content Creator Mode Toggle / Session Trigger -->
         <button
-          @click="store.toggleCreatorMode()"
+          @click="store.requestCreatorMode()"
           :class="[
             'flex items-center space-x-1 px-2 py-0.5 rounded text-xs font-mono font-bold transition border',
             store.creatorModeActive
               ? 'bg-cyber-amber/15 border-cyber-amber text-cyber-amber shadow-glow-amber'
               : 'bg-terminal-surface border-terminal-border text-terminal-muted hover:text-white'
           ]"
-          title="Toggle Content Creator Mode (Ctrl+G: Green Pump | Ctrl+R: Red Dump)"
+          title="Content Creator Mode (Ctrl+G: Bull Pump | Ctrl+R: Bear Dump)"
         >
           <span v-if="store.creatorModeActive" class="w-1.5 h-1.5 rounded-full bg-cyber-red animate-pulse"></span>
           <IconBroadcast :size="14" />
           <span class="text-[11px]">{{ store.creatorModeActive ? 'CREATOR [ON]' : 'CREATOR' }}</span>
+        </button>
+
+        <button
+          @click="store.showSettingsModal = true"
+          class="p-1 rounded hover:bg-terminal-surface hover:text-white transition"
+          title="System Settings & Legal Directives"
+        >
+          <IconSettings :size="16" />
         </button>
 
         <button

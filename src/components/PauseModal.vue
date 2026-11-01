@@ -58,11 +58,18 @@ function handleQuit() {
 
         <!-- Creator Mode Quick Toggle -->
         <button
-          @click="store.toggleCreatorMode()"
+          @click="store.requestCreatorMode()"
           class="w-full py-2.5 rounded bg-terminal-surface border border-cyber-amber/50 text-xs text-cyber-amber hover:border-cyber-amber hover:bg-cyber-amber/10 transition flex items-center justify-center space-x-2 font-mono font-bold"
         >
           <span v-if="store.creatorModeActive" class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
-          <span>CREATOR MODE (Ctrl+G: 🟢 | Ctrl+R: 🔴): {{ store.creatorModeActive ? 'ON' : 'OFF' }}</span>
+          <span>CREATOR MODE: {{ store.creatorModeActive ? 'ACTIVE [ON]' : 'DISABLED (CLICK TO LAUNCH)' }}</span>
+        </button>
+
+        <button
+          @click="store.showSettingsModal = true"
+          class="w-full py-2.5 rounded bg-terminal-surface border border-terminal-border text-xs text-terminal-text hover:text-white hover:border-terminal-highlight transition font-bold uppercase tracking-wider"
+        >
+          Settings &amp; Legal Directives
         </button>
 
         <button

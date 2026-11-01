@@ -14,6 +14,8 @@ import RankLeaderboard from './components/RankLeaderboard.vue';
 import WebsiteTab from './components/WebsiteTab.vue';
 import CreatorControlOverlay from './components/CreatorControlOverlay.vue';
 import PauseModal from './components/PauseModal.vue';
+import SettingsModal from './components/SettingsModal.vue';
+import CreatorSessionModal from './components/CreatorSessionModal.vue';
 
 const store = useGameStore();
 
@@ -26,10 +28,10 @@ function handleKeyDown(e: KeyboardEvent) {
     return;
   }
 
-  // Ctrl + Shift + C to toggle Content Creator Mode
+  // Ctrl + Shift + C to toggle or launch Content Creator Mode
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
     e.preventDefault();
-    store.toggleCreatorMode();
+    store.requestCreatorMode();
     return;
   }
 
@@ -39,8 +41,9 @@ function handleKeyDown(e: KeyboardEvent) {
   if (store.inGame) {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'g' || e.key === 'G')) {
       e.preventDefault();
-      if (!store.creatorModeActive) {
-        store.creatorModeActive = true;
+      if (!store.creatorModeActive || store.gameMode !== 'ContentCreator') {
+        store.showCreatorSessionModal = true;
+        return;
       }
       store.triggerMarketPump();
       return;
@@ -48,8 +51,9 @@ function handleKeyDown(e: KeyboardEvent) {
 
     if ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R')) {
       e.preventDefault(); // CRITICAL: Prevents browser reload!
-      if (!store.creatorModeActive) {
-        store.creatorModeActive = true;
+      if (!store.creatorModeActive || store.gameMode !== 'ContentCreator') {
+        store.showCreatorSessionModal = true;
+        return;
       }
       store.triggerMarketDump();
       return;
@@ -140,6 +144,10 @@ onUnmounted(() => {
       <!-- Pause Menu Modal (Triggered by ESC) -->
       <PauseModal v-if="store.showPauseModal" />
     </template>
+
+    <!-- Global System Modals -->
+    <SettingsModal />
+    <CreatorSessionModal />
   </div>
 </template>
 

@@ -2,6 +2,13 @@
   "name": "simange",
   "version": "0.1.0",
   "description": "Simange (Simulation of Exchange) - FOSS Cyberpunk Financial Market Simulator",
+  "author": "KaProject Labs",
+  "copyright": "Copyright (c) 2026 KaProject Labs",
+  "homepage": "https://github.com/KaProject-Labs/Simange",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KaProject-Labs/Simange.git"
+  },
   "private": true,
   "type": "module",
   "license": "GPL-3.0-or-later",

@@ -10,10 +10,8 @@ import type { GameModeType } from '../types';
 const store = useGameStore();
 
 const showModeModal = ref(false);
-const showCreatorPickerModal = ref(false);
 const showCustomModal = ref(false);
 const showRanksModal = ref(false);
-const showSettingsModal = ref(false);
 const showCeoModal = ref(false);
 
 // Music state
@@ -125,18 +123,11 @@ function handleModeSelect(mode: GameModeType) {
     showCustomModal.value = true;
   } else if (mode === 'ContentCreator') {
     showModeModal.value = false;
-    showCreatorPickerModal.value = true;
+    store.showCreatorSessionModal = true;
   } else {
     showModeModal.value = false;
     store.startNewGame(mode);
   }
-}
-
-function handleStartCreator(submode: 'StockExchange' | 'Cryptocurrency') {
-  showCreatorPickerModal.value = false;
-  store.startNewGame('ContentCreator', {
-    creatorSubMode: submode,
-  });
 }
 
 function handleStartCustom() {
@@ -284,10 +275,10 @@ function openProjectWebsite() {
           </button>
 
           <button
-            @click="showSettingsModal = true"
+            @click="store.showSettingsModal = true"
             class="py-3 rounded-lg cyber-panel border border-terminal-border text-terminal-muted font-semibold uppercase tracking-wider hover:border-terminal-highlight hover:text-white transition text-xs"
           >
-            Settings
+            Settings &amp; Legal
           </button>
         </div>
       </div>
@@ -315,8 +306,8 @@ function openProjectWebsite() {
 
       <!-- Footer Info -->
       <div class="text-[11px] text-terminal-muted space-y-1">
-        <div>17 Parody Equities & Cryptos • Real-Time Order Book Engine</div>
-        <div>Licensed under GNU General Public License v3.0 (FOSS)</div>
+        <div>17 Parody Equities &amp; Cryptos • Real-Time Order Book Engine</div>
+        <div>Licensed under GPL-3.0 • Copyright &copy; 2026 KaProject Labs</div>
       </div>
     </div>
 
@@ -464,75 +455,6 @@ function openProjectWebsite() {
       </div>
     </div>
 
-    <!-- Content Creator Sub-Mode Picker Modal -->
-    <div
-      v-if="showCreatorPickerModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
-    >
-      <div class="max-w-xl w-full cyber-panel border-2 border-cyber-amber p-6 rounded-lg shadow-glow-amber space-y-5">
-        <div class="flex items-center justify-between border-b border-terminal-border pb-3">
-          <div>
-            <div class="text-xs font-mono text-cyber-amber font-bold flex items-center space-x-2">
-              <span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
-              <span>CONTENT CREATOR SIMULATION SETUP</span>
-            </div>
-            <h2 class="text-lg font-bold text-white tracking-wider font-mono">CHOOSE MARKET UNIVERSE</h2>
-          </div>
-          <button @click="showCreatorPickerModal = false" class="text-terminal-muted hover:text-white text-sm">✕</button>
-        </div>
-
-        <p class="text-xs text-terminal-muted">
-          Select which market you want to direct during your livestream or video recording:
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Option 1: Stock Exchange Universe -->
-          <div
-            @click="handleStartCreator('StockExchange')"
-            class="cyber-panel p-4 rounded-lg border border-terminal-border hover:border-cyber-blue cursor-pointer transition space-y-3 group bg-terminal-surface/50"
-          >
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-white group-hover:text-cyber-blue text-sm">Stock Exchange</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-terminal-bg text-cyber-green font-mono">12 STOCKS</span>
-            </div>
-            <p class="text-[11px] text-terminal-muted leading-relaxed">
-              Control Apple, MicroHard, MuskCar, Nvidiot, Googol, Mate & other corporate tech titans.
-            </p>
-            <div class="text-[10px] font-mono text-cyber-blue">
-              Hotkeys: Ctrl+G (Pump) / Ctrl+R (Dump)
-            </div>
-            <button
-              class="w-full py-2 rounded bg-cyber-blue text-black font-bold font-mono text-xs uppercase group-hover:bg-cyber-blue/90 transition shadow-glow-blue"
-            >
-              Select Stocks →
-            </button>
-          </div>
-
-          <!-- Option 2: Cryptocurrency Universe -->
-          <div
-            @click="handleStartCreator('Cryptocurrency')"
-            class="cyber-panel p-4 rounded-lg border border-terminal-border hover:border-cyber-amber cursor-pointer transition space-y-3 group bg-terminal-surface/50"
-          >
-            <div class="flex items-center justify-between">
-              <span class="font-bold text-white group-hover:text-cyber-amber text-sm">Cryptocurrency</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-terminal-bg text-cyber-amber font-mono">5 CRYPTOS</span>
-            </div>
-            <p class="text-[11px] text-terminal-muted leading-relaxed">
-              Control Bytecoin, Aethereum, Solona, MeowCoin & USD-Fake with hyper-volatility.
-            </p>
-            <div class="text-[10px] font-mono text-cyber-amber">
-              Hotkeys: Ctrl+G (Pump) / Ctrl+R (Dump)
-            </div>
-            <button
-              class="w-full py-2 rounded bg-cyber-amber text-black font-bold font-mono text-xs uppercase group-hover:bg-cyber-amber/90 transition shadow-glow-amber"
-            >
-              Select Cryptos →
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Custom Mode Config Modal -->
     <div
       v-if="showCustomModal"
@@ -641,77 +563,6 @@ function openProjectWebsite() {
           <div class="cyber-panel p-3 rounded border border-cyber-green">
             <h4 class="font-bold text-cyber-green text-sm">6. Wall Street Legend (&gt; $10,000,000)</h4>
             <p class="text-terminal-muted mt-0.5">Zero trading fees. Infinite credit lines. Master of Markets.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div
-      v-if="showSettingsModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
-    >
-      <div class="max-w-md w-full cyber-panel border border-terminal-border p-6 rounded-lg space-y-4">
-        <div class="flex items-center justify-between border-b border-terminal-border pb-3">
-          <h2 class="text-lg font-bold text-white tracking-wider">SETTINGS & LICENSE</h2>
-          <button @click="showSettingsModal = false" class="text-terminal-muted hover:text-white text-sm">✕</button>
-        </div>
-
-        <div class="space-y-3 text-xs">
-          <div class="flex items-center justify-between p-2 rounded bg-terminal-surface">
-            <span>Sound Effects (SFX)</span>
-            <button
-              @click="store.toggleSound()"
-              :class="store.soundEnabled ? 'text-cyber-green' : 'text-terminal-muted'"
-              class="font-mono font-bold"
-            >
-              {{ store.soundEnabled ? 'ENABLED' : 'MUTED' }}
-            </button>
-          </div>
-
-          <div class="flex items-center justify-between p-2 rounded bg-terminal-surface">
-            <span>Soundtrack BGM</span>
-            <button
-              @click="toggleSoundtrack()"
-              :class="isMusicPlaying ? 'text-cyber-green' : 'text-terminal-muted'"
-              class="font-mono font-bold"
-            >
-              {{ isMusicPlaying ? 'PLAYING' : 'MUTED' }}
-            </button>
-          </div>
-
-          <div class="flex items-center justify-between p-2 rounded bg-terminal-surface">
-            <span>CRT Scanline Shader</span>
-            <button
-              @click="store.toggleScanlines()"
-              :class="store.scanlinesEnabled ? 'text-cyber-green' : 'text-terminal-muted'"
-              class="font-mono font-bold"
-            >
-              {{ store.scanlinesEnabled ? 'ENABLED' : 'DISABLED' }}
-            </button>
-          </div>
-
-          <!-- Content Creator Mode Setting -->
-          <div class="p-2.5 rounded bg-terminal-surface border border-cyber-amber/40 space-y-1.5">
-            <div class="flex items-center justify-between">
-              <span class="text-cyber-amber font-bold">Content Creator Mode</span>
-              <button
-                @click="store.toggleCreatorMode()"
-                :class="store.creatorModeActive ? 'text-cyber-green' : 'text-terminal-muted'"
-                class="font-mono font-bold"
-              >
-                {{ store.creatorModeActive ? 'ENABLED' : 'DISABLED' }}
-              </button>
-            </div>
-            <div class="text-[10px] text-terminal-muted leading-tight font-mono">
-              Hotkeys: <span class="text-cyber-green font-bold">Ctrl + G</span> (Green Pump) / <span class="text-cyber-red font-bold">Ctrl + R</span> (Red Dump). Toggle HUD: <span class="text-white font-bold">Ctrl + Shift + C</span>.
-            </div>
-          </div>
-
-          <div class="p-3 rounded bg-terminal-surface/60 space-y-1.5 text-terminal-muted leading-relaxed">
-            <div class="text-white font-semibold">Simange // Simulation of Exchange</div>
-            <div>Free & Open Source Software licensed under GNU GPL v3.0.</div>
-            <div>Automated multi-platform desktop release powered by Bun, Vite, Vue 3, and Tauri v2.</div>
           </div>
         </div>
       </div>

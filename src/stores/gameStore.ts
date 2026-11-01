@@ -53,8 +53,9 @@ export const useGameStore = defineStore('game', {
     soundEnabled: true,
     scanlinesEnabled: true,
     hasSaveFile: false,
-    // Content Creator Mode
-    creatorModeActive: true,
+    showCreatorSessionModal: false,
+    // Content Creator Mode (Disabled by default)
+    creatorModeActive: false,
     creatorSubMode: 'StockExchange' as 'StockExchange' | 'Cryptocurrency',
     creatorStealthMode: false,
     creatorMagnitude: 0.05,
@@ -125,6 +126,8 @@ export const useGameStore = defineStore('game', {
         if (customConfig?.creatorSubMode) {
           this.creatorSubMode = customConfig.creatorSubMode;
         }
+      } else {
+        this.creatorModeActive = false;
       }
 
       if (isTauriEnvironment()) {
@@ -168,8 +171,13 @@ export const useGameStore = defineStore('game', {
         this.browserTimer = null;
       }
 
-      if (mode === 'ContentCreator' && customConfig?.creatorSubMode) {
-        this.creatorSubMode = customConfig.creatorSubMode;
+      if (mode === 'ContentCreator') {
+        this.creatorModeActive = true;
+        if (customConfig?.creatorSubMode) {
+          this.creatorSubMode = customConfig.creatorSubMode;
+        }
+      } else {
+        this.creatorModeActive = false;
       }
 
       browserEngineInstance = new BrowserSimulationEngine(mode, {
@@ -539,15 +547,32 @@ export const useGameStore = defineStore('game', {
       }
     },
 
-    toggleCreatorMode() {
+    requestCreatorMode() {
+      // Content Creator Mode is Disabled in Default Setting.
+      // If user tries Content Creator Mode, prompt to launch a New Simulation/Session!
+      if (this.gameMode !== 'ContentCreator') {
+        this.showCreatorSessionModal = true;
+        return;
+      }
       this.creatorModeActive = !this.creatorModeActive;
       soundManager.playClick();
       this.showNotification(
         this.creatorModeActive
           ? 'Content Creator Mode ENABLED! Use [Ctrl+G] for Green (Pump) & [Ctrl+R] for Red (Dump).'
-          : 'Content Creator Mode Deactivated.',
+          : 'Content Creator Mode Controls Paused.',
         this.creatorModeActive ? 'success' : 'info'
       );
+    },
+
+    toggleCreatorMode() {
+      this.requestCreatorMode();
+    },
+
+    startCreatorSession(submode: 'StockExchange' | 'Cryptocurrency' = 'StockExchange') {
+      this.showCreatorSessionModal = false;
+      this.showSettingsModal = false;
+      this.showPauseModal = false;
+      this.startNewGame('ContentCreator', { creatorSubMode: submode });
     },
 
     toggleCreatorStealth() {
