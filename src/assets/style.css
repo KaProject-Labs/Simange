@@ -12,8 +12,8 @@ body {
   font-family: 'JetBrains Mono', monospace;
   background-color: #080a0f;
   color: #d1d5db;
-  overflow: hidden;
-  user-select: none;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Tabular figures for fluctuating price numbers */

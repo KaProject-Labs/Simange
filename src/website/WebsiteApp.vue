@@ -167,6 +167,11 @@ function handleGlobalKey(e: KeyboardEvent) {
 }
 
 onMounted(() => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflowY = 'auto';
+    document.body.style.overflowY = 'auto';
+    document.body.style.height = 'auto';
+  }
   window.addEventListener('keydown', handleGlobalKey);
   timerId = setInterval(() => {
     const shock = (Math.random() - 0.49) * 0.008 + trendBias.value * 0.005;

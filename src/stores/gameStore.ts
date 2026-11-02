@@ -36,12 +36,13 @@ async function tauriInvoke<T>(command: string, args: Record<string, unknown> = {
 export const useGameStore = defineStore('game', {
   state: () => ({
     inGame: false,
-    activeTab: 'terminal' as 'terminal' | 'portfolio' | 'news' | 'bank' | 'ranks' | 'website',
+    activeTab: 'terminal' as 'terminal' | 'portfolio' | 'news' | 'bank' | 'ranks' | 'browser',
     isPaused: false,
     showPauseModal: false,
     showLeaderboardModal: false,
     showSettingsModal: false,
     showWebsiteModal: false,
+    browserLocked: true,
     assets: [] as Asset[],
     selectedSymbol: 'BYTE',
     orderBook: null as OrderBook | null,
@@ -101,6 +102,14 @@ export const useGameStore = defineStore('game', {
 
     toggleScanlines() {
       this.scanlinesEnabled = !this.scanlinesEnabled;
+    },
+
+    unlockBrowser() {
+      this.browserLocked = false;
+    },
+
+    toggleRealWebAccess() {
+      this.browserLocked = !this.browserLocked;
     },
 
     async checkSaveFile() {

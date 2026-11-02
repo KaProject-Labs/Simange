@@ -18,6 +18,7 @@ import {
   IconWorld,
   IconBroadcast,
   IconSettings,
+  IconLockOpen,
 } from '@tabler/icons-vue';
 
 const store = useGameStore();
@@ -153,16 +154,24 @@ function formatCurrency(val: number): string {
       </button>
 
       <button
-        @click="store.activeTab = 'website'"
+        @click="store.activeTab = 'browser'"
         :class="[
           'flex items-center space-x-1.5 px-3 py-1 rounded text-xs font-medium transition',
-          store.activeTab === 'website'
+          store.activeTab === 'browser'
             ? 'bg-terminal-border text-cyber-blue shadow-glow-blue'
             : 'text-terminal-text hover:text-white hover:bg-terminal-panel'
         ]"
       >
         <IconWorld :size="16" />
-        <span>Net / Website</span>
+        <span>Browser</span>
+      </button>
+      <button
+        v-if="store.browserLocked"
+        @click="store.unlockBrowser()"
+        class="ml-1 flex items-center space-x-1 px-2 py-1 rounded text-xs font-medium transition bg-cyber-amber/20 border border-cyber-amber text-cyber-amber hover:bg-cyber-amber/40"
+      >
+        <IconLockOpen :size="14" />
+        <span>Unlock Browser</span>
       </button>
     </nav>
 

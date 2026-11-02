@@ -140,7 +140,10 @@ function handleStartCustom() {
 }
 
 function openProjectWebsite() {
-  window.open('/website.html', '_blank');
+  const win = window.open('/website.html', '_blank');
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    window.location.href = '/website.html';
+  }
 }
 </script>
 

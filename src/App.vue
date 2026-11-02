@@ -11,7 +11,7 @@ import PortfolioTab from './components/PortfolioTab.vue';
 import NewsFeedTab from './components/NewsFeedTab.vue';
 import BankLoansTab from './components/BankLoansTab.vue';
 import RankLeaderboard from './components/RankLeaderboard.vue';
-import WebsiteTab from './components/WebsiteTab.vue';
+import Browser from './components/Browser.vue';
 import CreatorControlOverlay from './components/CreatorControlOverlay.vue';
 import PauseModal from './components/PauseModal.vue';
 import SettingsModal from './components/SettingsModal.vue';
@@ -72,7 +72,7 @@ function handleKeyDown(e: KeyboardEvent) {
     if (e.key === '3') store.activeTab = 'news';
     if (e.key === '4') store.activeTab = 'bank';
     if (e.key === '5') store.activeTab = 'ranks';
-    if (e.key === '6') store.activeTab = 'website';
+    if (e.key === '6') store.activeTab = 'browser';
   }
 }
 
@@ -134,8 +134,8 @@ onUnmounted(() => {
         <!-- Tab 5: Rank Progression & Leaderboard -->
         <RankLeaderboard v-else-if="store.activeTab === 'ranks'" />
 
-        <!-- Tab 6: CyberNet Browser / Official Project Webpage -->
-        <WebsiteTab v-else-if="store.activeTab === 'website'" />
+        <!-- Tab 6: Browser -->
+        <Browser v-else-if="store.activeTab === 'browser'" />
       </main>
 
       <!-- Content Creator Floating HUD & Flash Overlay -->
